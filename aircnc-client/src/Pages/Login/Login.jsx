@@ -44,19 +44,19 @@ const Login = () => {
   };
 
   //   handle password reset
-  const handleReset = () => {
-    const email = emailRef.current.value;
+  const handleReset =()=> {
+    const email = emailRef.current.value
 
     resetPassword(email)
-      .then(() => {
-        toast.success("Please check your email for reset link");
-        setLoading(false);
+      .then(() =>{
+        toast.success("Please check your email for reset link")
+        setLoading(false)
       })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err.message);
-        toast.error(err.message);
-      });
+      .catch((err) =>{
+        setLoading(false)
+        console.log(err.message)
+        toast.error(err.message)
+      })
   };
   return (
     <div className="flex justify-center items-center min-h-screen">
