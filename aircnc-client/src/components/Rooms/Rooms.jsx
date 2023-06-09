@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Container from '../Shared/Container';
 import Card from './Card';
+import Loader from '../Shared/Loader/Loader';
 
 const Rooms = () => {
     const [rooms, setRooms] = useState([])
@@ -13,7 +14,10 @@ const Rooms = () => {
                 setRooms(data)
                 setLoading(false)
         })
-    },[])
+    }, [])
+    if (loading) {
+        return <Loader/>
+      }
     return (
         <div>
             <Container>
