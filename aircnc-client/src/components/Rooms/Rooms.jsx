@@ -23,7 +23,10 @@ const Rooms = () => {
             <Container>
                 <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-8'>
                     {
-                        rooms.map(room=><Card></Card>)
+                        rooms.map((room, i) => <Card
+                            key={i}
+                            room={room}
+                        ></Card>)
                     }
                 </div>
             </Container>
