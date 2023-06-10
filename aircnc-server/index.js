@@ -41,6 +41,20 @@ async function run() {
   }
 }
 run().catch(console.dir)
+// 1st 
+app.put('/users/:email', async (req, res) => {
+  const email = req.params.email
+  const user = req.body
+  const query = { email: email }
+  const option = { upsert: true } // user na thakle add kore dibe
+  const updateDoc = {
+    $set:user
+  }
+  const result = await usersCollection.updateOne(query, updateDoc, option)
+  console.log(result)
+  res.send(result)
+  
+})
 
 app.get('/', (req, res) => {
   res.send('AirCNC Server is running..')
