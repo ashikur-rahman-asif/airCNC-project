@@ -11,7 +11,7 @@ const NavBar = () => {
                 <Container>
                     <div className='flex flew-row items-center justify-between gap-3 md:gap-0'>
                         <div>
-                            <Link><img src={logo} alt="air-cnc-logo" className='w-[100px] h-[40px] hidden md:block' /></Link>
+                            <Link to="/"><img src={logo} alt="air-cnc-logo" className='w-[100px] h-[40px] hidden md:block' /></Link>
                         </div>
                         <Search/>
                         <MenuDropdown/>
