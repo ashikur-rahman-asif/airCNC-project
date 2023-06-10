@@ -14,8 +14,9 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.imc1v2j.mongodb.net/?retryWrites=true&w=majority`
 
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.imc1v2j.mongodb.net/?retryWrites=true&w=majority`
+const uri=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@asif.dufoyin.mongodb.net/?retryWrites=true&w=majority`
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -29,7 +30,19 @@ async function run() {
     const usersCollection = client.db('aircncDb').collection('users')
     const roomsCollection = client.db('aircncDb').collection('rooms')
     const bookingsCollection = client.db('aircncDb').collection('bookings')
-
+// Save user email and role in DB
+    app.put('/users/:email', async (req, res) => {
+      const email = req.params.email
+      const user = req.body
+      const query = { email: email }
+      const options = { upsert: true } //user na thakle add kore dibe
+      const updateDoc = {
+        $set: user,
+      }
+      const result = await usersCollection.updateOne(query, updateDoc, options)
+      console.log(result)
+      res.send(result)
+    })
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 })
     console.log(
@@ -41,20 +54,7 @@ async function run() {
   }
 }
 run().catch(console.dir)
-// 1st 
-app.put('/users/:email', async (req, res) => {
-  const email = req.params.email
-  const user = req.body
-  const query = { email: email }
-  const option = { upsert: true } // user na thakle add kore dibe
-  const updateDoc = {
-    $set:user
-  }
-  const result = await usersCollection.updateOne(query, updateDoc, option)
-  console.log(result)
-  res.send(result)
-  
-})
+
 
 app.get('/', (req, res) => {
   res.send('AirCNC Server is running..')

@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { updateCurrentUser } from "firebase/auth";
+import { saveUser } from "../../api/auth";
 
 // secret imgbb token
 const img_hosting_token = import.meta.env.VITE_IMGBB_KEY;
@@ -42,6 +43,8 @@ const SignUp = () => {
                   updateUserProfile(name, imageUrl)
                   .then(() => {
                     toast.success("SignUp successful")
+                    //save user to dB
+                    saveUser(result.user)
                     navigate(from, { replace: true });
                   })
                   .catch((err) => {
@@ -67,6 +70,8 @@ const SignUp = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
+        //save user to dB
+        saveUser(result.user)
         navigate(from, { replace: true });
       })
       .catch((err) => {
