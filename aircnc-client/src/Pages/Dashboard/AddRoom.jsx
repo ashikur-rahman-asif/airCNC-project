@@ -4,6 +4,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 // import { imageupload } from "../../api/utils";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { addRoom } from "../../api/utils";
 // secret imgbb token
 const img_hosting_token = import.meta.env.VITE_IMGBB_KEY;
 const AddRoom = () => {
@@ -60,7 +61,9 @@ const AddRoom = () => {
                     },
                    
                     category,
-                }
+              }
+              addRoom(roomData)
+              .then(data=>console.log(data))
                 console.log(roomData)
                 setLoading(false)
                 
