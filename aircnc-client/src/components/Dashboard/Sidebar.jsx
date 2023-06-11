@@ -1,15 +1,16 @@
 import React, { useContext, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import LOGO from "../../assets/images/logo.png";
+import { AuthContext } from '../../providers/AuthProvider'
+import Logo from '../Shared/Navbar/Logo'
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { AiOutlineBars } from 'react-icons/ai'
-import { AuthContext } from '../../providers/AuthProvider'
-import { BsFillHouseAddFill } from 'react-icons/bs';
+import HostMenu from './HostMenu'
+import GuestMenu from './GuestMenu'
 const Sidebar = () => {
   const navigate = useNavigate()
   const [toggle, setToggle] = useState(false)
-  const { user, logOut } = useContext(AuthContext)
+  const { user, logOut, role } = useContext(AuthContext)
 
   const [isActive, setActive] = useState('false')
   const toggleHandler = event => {
@@ -29,7 +30,7 @@ const Sidebar = () => {
       <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
         <div>
           <div className='block cursor-pointer p-4 font-bold'>
-          <Link><img src={LOGO} alt="air-cnc-logo" className='w-[100px] h-[40px] hidden md:block' /></Link>
+            <Logo />
           </div>
         </div>
 
@@ -50,7 +51,7 @@ const Sidebar = () => {
           {/* Branding & Profile Info */}
           <div>
             <div className='w-full hidden md:flex py-2 justify-center items-center bg-rose-100 mx-auto'>
-            <Link><img src={LOGO} alt="air-cnc-logo" className='w-[100px] h-[40px] hidden md:block' /></Link>
+              <Logo />
             </div>
             <div className='flex flex-col items-center mt-6 -mx-2'>
               <Link to='/dashboard'>
@@ -77,38 +78,31 @@ const Sidebar = () => {
           {/* Nav Items */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
             <nav>
-              <>
-                <label
-                  htmlFor='Toggle3'
-                  className='inline-flex w-full justify-center items-center px-2 rounded-md cursor-pointer text-gray-800'
-                >
-                  <input
-                    onChange={toggleHandler}
-                    id='Toggle3'
-                    type='checkbox'
-                    className='hidden peer'
-                  />
-                  <span className='px-4 py-1 rounded-l-md bg-rose-400 peer-checked:bg-gray-300'>
-                    Guest
-                  </span>
-                  <span className='px-4 py-1 rounded-r-md bg-gray-300 peer-checked:bg-rose-400'>
-                    Host
-                  </span>
-                </label>
-                {/* Menu Links */}
-                <NavLink
-                  to='/dashboard/add-room'
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                      isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                    }`
-                  }
-                >
-                  <BsFillHouseAddFill className='w-5 h-5' />
-
-                  <span className='mx-4 font-medium'>Add Room</span>
-                </NavLink>
-              </>
+              {role && role === 'host' ? (
+                <>
+                  <label
+                    htmlFor='Toggle3'
+                    className='inline-flex w-full justify-center items-center px-2 rounded-md cursor-pointer text-gray-800'
+                  >
+                    <input
+                      onChange={toggleHandler}
+                      id='Toggle3'
+                      type='checkbox'
+                      className='hidden peer'
+                    />
+                    <span className='px-4 py-1 rounded-l-md bg-rose-400 peer-checked:bg-gray-300'>
+                      Guest
+                    </span>
+                    <span className='px-4 py-1 rounded-r-md bg-gray-300 peer-checked:bg-rose-400'>
+                      Host
+                    </span>
+                  </label>
+                  {/* Menu Links */}
+                  {toggle ? <HostMenu /> : <GuestMenu />}
+                </>
+              ) : (
+                <GuestMenu />
+              )}
             </nav>
           </div>
         </div>
